@@ -1,0 +1,47 @@
+From 04efd9d8d9465bf2d30b33f72f3f96f7992ae52f Mon Sep 17 00:00:00 2001
+From: Alvaro Denis Acosta Quesada <denisacostaq@gmail.com>
+Date: Sun, 26 May 2013 22:40:22 -0400
+Subject: [PATCH] linux-2.6.37 source patched for intel build
+
+---
+ arch/x86/kernel/ptrace.c  |    4 ++--
+ drivers/net/igbvf/igbvf.h |    1 -
+ 2 files changed, 2 insertions(+), 3 deletions(-)
+
+diff --git a/arch/x86/kernel/ptrace.c b/arch/x86/kernel/ptrace.c
+index 45892dc..8e83bfb 100644
+--- a/arch/x86/kernel/ptrace.c
++++ b/arch/x86/kernel/ptrace.c
+@@ -1347,7 +1347,7 @@ void send_sigtrap(struct task_struct *tsk, struct pt_regs *regs,
+  * We must return the syscall number to actually look up in the table.
+  * This can be -1L to skip running any syscall at all.
+  */
+-asmregparm long syscall_trace_enter(struct pt_regs *regs)
++long syscall_trace_enter(struct pt_regs *regs)
+ {
+ 	long ret = 0;
+ 
+@@ -1392,7 +1392,7 @@ asmregparm long syscall_trace_enter(struct pt_regs *regs)
+ 	return ret ?: regs->orig_ax;
+ }
+ 
+-asmregparm void syscall_trace_leave(struct pt_regs *regs)
++void syscall_trace_leave(struct pt_regs *regs)
+ {
+ 	bool step;
+ 
+diff --git a/drivers/net/igbvf/igbvf.h b/drivers/net/igbvf/igbvf.h
+index debeee2..f7ae284 100644
+--- a/drivers/net/igbvf/igbvf.h
++++ b/drivers/net/igbvf/igbvf.h
+@@ -126,7 +126,6 @@ struct igbvf_buffer {
+ 			unsigned int page_offset;
+ 		};
+ 	};
+-	struct page *page;
+ };
+ 
+ union igbvf_desc {
+-- 
+1.7.10.4
+
